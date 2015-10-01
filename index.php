@@ -23,14 +23,14 @@ if (!$con)
   die('Could not connect: ' . mysqli_error($con));
 }
 # mysqli_select_db($con,"vtiger_cf_640");
-$result = mysqli_query($con,"SELECT * FROM routes");
+$result = mysqli_query($con,"SELECT * FROM grades");
 
 echo '<select name="bcls" id="bcls">';
 echo '<option value="">Select a route</option>';
 
 while($row = mysqli_fetch_array($result))
 {
-  echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+  echo '<option value="' . $row['id'] . '">' . $row['difficulty'] . '</option>';
 }
 
 echo '</select>';
