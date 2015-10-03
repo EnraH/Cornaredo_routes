@@ -1,10 +1,4 @@
 <!Doctype html>
-<?php
-
-// Turn on all error reporting
-error_reporting(E_ALL);
-
-?>
 
 <html lang="en">
 <head>
@@ -29,7 +23,7 @@ error_reporting(E_ALL);
 <script>
 $(document).ready(function(){
     $(document).on("click","#route_table tr",function(){
-      alert($(this).attr('id'));
+      //alert($(this).attr('id'));
       $.post("drawRoute.php",
         {
           id:$(this).attr('id'),
@@ -43,18 +37,22 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
-    $("#loc_sel").change(function(){
-      alert($(this).val());
-      $.post("getBlockImg.php",
-        {
-          loc:$("#loc_sel").val();
-        },
-        function(data,status){
-          $("#editor").html(data);
-        });
+  $('#loc_sel').on( 'change', function(){
+    //alert($(this).val());
+    $.post("getBlockImg.php",
+      {
+        loc:$(this).val(),
+      },
+      function(data,status){
+        $("#editor").html(data);
+        $('.prev_block').on( 'click', function(){
+          alert($(this).id());
+          });
       });
     });
+  });
 </script>
+
 </head>
 
 <body>
@@ -142,7 +140,7 @@ Select base picture for
 
 </div>
 
-<div id="editor">
+<div id="editor" class="container-fluid">
 </div>
 
 <script src="lightbox/lightbox.js"></script>
