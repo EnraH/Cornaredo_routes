@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 
 <body>
 <div id="header">
-        <img src="img/header.jpg" width="100%" alt="wall">
+        <img src="img/header.png" width="100%" alt="wall">
 </div>
 <div>
 <?php
