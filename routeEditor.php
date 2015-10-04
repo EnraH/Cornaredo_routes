@@ -36,13 +36,22 @@ $(document).ready(function(){
 </script>
 
 <script>
+$(document).ready(function() {
+  $("#block_img").mouseenter(function() {
+    $("#change_btn").show(500);
+  });
+});
+</script>
+
+<script>
 $(function() {
 $("#block").click(function(e) {
   var offset = $(this).offset();
   var relativeX = (e.pageX - offset.left);
   var relativeY = (e.pageY - offset.top);
   $(".position").val("afaf");
-  $('#coord_table tr:last').after('<tr><td>'+relativeX+'</td><td>'+relativeY+'</td></tr>');
+  
+  $('#coord_table tr:last').after('<tr><td>'+relativeX+'</td><td>'+relativeY+'</td><td><input type="text" class="form-control" id="comment"></td></tr>');
   });
 });
 </script>
@@ -62,13 +71,15 @@ $(document).ready(function(){
     var name = $("#name").val();
     var grade = $("#grade").val();
     var creator = $("#creator").val();
+    var loc = $("#loc").val();
     $.ajax({
       type: "POST",
       url: "writeRouteToDB.php",
       data: {pTableData: json_txt, 
              name:  name, 
              grade: grade, 
-             creator: creator}
+             creator: creator,
+             loc: loc}
     })
     .done(function( html ) {
       $("#results").append(html);
@@ -96,7 +107,7 @@ echo '<select id="grade">';
 
 while($row = mysqli_fetch_array($result))
 {
-  echo '<option value="' . $row['id'] . '">' . $row['difficulty'] . '</option>';
+  echo '<option value="' . $row['d_value'] . '">' . $row['difficulty'] . '</option>';
 }
 
 echo '</select>';
@@ -107,8 +118,8 @@ echo '</select>';
   <input type="text" class="form-control" id="name">
 </div>
 <div class="form-group">
-  <label for="location">Location</label>
-  <input type="text" class="form-control" id="location">
+  <label for="loc">Location</label>
+  <input type="text" class="form-control" id="loc">
 </div>
 
 <div class="form-group">
@@ -116,9 +127,9 @@ echo '</select>';
   <input type="text" class="form-control" id="creator">
 </div>
 
-<div>
+<div id="block_img" style="position:relative;">
 <img id="block" src="img/blocks/L1110300.jpg">
-
+<button id="change_btn" type="button" class="btn btn-default" style="position:absolute; left:0;display:none;">Change</button>
 </div>
 
 <div>
@@ -126,8 +137,9 @@ echo '</select>';
 <table id="coord_table" class="table table-striped">
 <thead>
 <tr id="title">
-  <th> X value</th>
-  <th> Y value</th>
+  <th>X value</th>
+  <th>Y value</th>
+  <th>Comment</th>
 </tr>
 </thead>
 <tbody>

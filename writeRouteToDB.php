@@ -5,10 +5,9 @@ echo (integer)ini_get('display_errors');
 // Unescape the string values in the JSON array
 $coords = stripcslashes($_POST['pTableData']);
 $name = $_POST['name'];
-$location = $_POST['location'];
+$location = $_POST['loc'];
 $creator = $_POST['creator'];
 $grade = $_POST['grade'];
-
 
 // Decode the JSON array
 $coords = json_decode($coords,TRUE);
@@ -21,16 +20,21 @@ if (mysqli_connect_errno()) {
   exit();
 }
 
-$query = "INSERT INTO routes ('name', 'creator', 'location', 'grade') VALUES ('$name', '$creator', '$location', '$grade')";
+
+$query = "INSERT INTO routes (name, creator, location, difficulty) VALUES ('$name', '$creator', '$location', '$grade')";
+//echo $query . '<br>';
 
 $mysqli->query($query);
 
-$i = 0;
+//echo $mysqli->insert_id;
+
+$i = 1;
 foreach ($coords as $row) {
-  if ( $i <= 20 ) {
-    $query = "UPDATE routes SET x{$i}='$row['X']', y{$i}='$row['Y'] ' WHERE id = '{$mysqli->insert_id}')";
+  if ( $i <= 20 && $row['X'] != NULL && $row['Y'] != NULL ) {
+    $query = "UPDATE routes SET x{$i}='{$row['X']}', y{$i}='{$row['Y']}' WHERE id = '{$mysqli->insert_id}')";
+    //echo $query;
     $mysqli->query($query);
+    $i++;
   }
-  $i++;
 }
 ?>
