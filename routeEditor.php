@@ -39,13 +39,40 @@ $(document).ready(function(){
 $(function() {
 $("#block").click(function(e) {
   var offset = $(this).offset();
-    var relativeX = (e.pageX - offset.left);
-      var relativeY = (e.pageY - offset.top);
-        alert(relativeX+':'+relativeY);
-          $(".position").val("afaf");
-  $('#myTable tr:last').after('<tr><td>'+relativeX+'</td><td>'+relativeY+'</td></tr>');
-          });
-          });
+  var relativeX = (e.pageX - offset.left);
+  var relativeY = (e.pageY - offset.top);
+  alert(relativeX+':'+relativeY);
+  $(".position").val("afaf");
+  $('#coord_table tr:last').after('<tr><td>'+relativeX+'</td><td>'+relativeY+'</td></tr>');
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+  $("#submit_btn").click( function() {
+    var TableData = new Array();
+    $('#coord_table tr').each(function(row, tr){
+      TableData[row]={
+      "X" : $(tr).find('td:eq(0)').text()
+      , "Y" :$(tr).find('td:eq(1)').text()
+      }
+    });
+    // Probably one could integrate all variables into the Json table
+    var json_txt = JSON.stringify(TableData, null, 2);
+    var name = $("#name").val();
+    var grade = $("#grade").val();
+    var creator = $("#creator").val();
+    $.ajax({
+      type: "POST",
+      url: "writeRouteToDB.php",
+      data: {"pTableData=" + json_txt, name, grade, creator},
+      success: function(msg){
+      // return value stored in msg variable
+      }
+      });
+  });
+});
 </script>
 
 </head>
@@ -94,7 +121,7 @@ echo '</select>';
 
 <div>
 
-<table id="myTable" class="table table-striped">
+<table id="coord_table" class="table table-striped">
 <thead>
 <tr id="title">
   <th> X value</th>
