@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(~0);
+echo (integer)ini_get('display_errors');
 // Unescape the string values in the JSON array
 $coords = stripcslashes($_POST['pTableData']);
 $name = $_POST['name'];
@@ -25,9 +28,9 @@ $mysqli->query($query);
 $i = 0;
 foreach ($coords as $row) {
   if ( $i <= 20 ) {
-  $query = "UPDATE routes SET x{$i}='$row['X']', y{$i}='$row['Y'] ' WHERE id = '{$mysqli->insert_id}')";
-$mysqli->query($query);
+    $query = "UPDATE routes SET x{$i}='$row['X']', y{$i}='$row['Y'] ' WHERE id = '{$mysqli->insert_id}')";
+    $mysqli->query($query);
   }
   $i++;
-  }
+}
 ?>

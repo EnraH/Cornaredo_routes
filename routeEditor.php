@@ -41,7 +41,6 @@ $("#block").click(function(e) {
   var offset = $(this).offset();
   var relativeX = (e.pageX - offset.left);
   var relativeY = (e.pageY - offset.top);
-  alert(relativeX+':'+relativeY);
   $(".position").val("afaf");
   $('#coord_table tr:last').after('<tr><td>'+relativeX+'</td><td>'+relativeY+'</td></tr>');
   });
@@ -66,12 +65,15 @@ $(document).ready(function(){
     $.ajax({
       type: "POST",
       url: "writeRouteToDB.php",
-      data: {"pTableData=" + json_txt, name, grade, creator},
-      success: function(msg){
-      // return value stored in msg variable
-      }
-      });
-  });
+      data: {pTableData: json_txt, 
+             name:  name, 
+             grade: grade, 
+             creator: creator}
+    })
+    .done(function( html ) {
+      $("#results").append(html);
+    });
+  });  
 });
 </script>
 
@@ -135,9 +137,16 @@ echo '</select>';
 </div>
 
 <div>
-<button id="submit-btn" type="button" class="btn btn-default">Submit</button>
+<button id="submit_btn" type="button" class="btn btn-default">Submit</button>
 </div>
+
+<div id="results">
+
 </div>
+
+</div>
+
+
 
 </body>
 
